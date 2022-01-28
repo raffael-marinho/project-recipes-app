@@ -7,8 +7,8 @@
 footer {
   background-color: #ff8686;
   bottom: 0;
-  display: flex;
-  justify-content: space-evenly;
+  display:  flex !important;
+  justify-content: space-around;
   padding: 10px;
   position: fixed;
   width: 100%;
