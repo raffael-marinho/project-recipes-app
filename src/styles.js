@@ -46,3 +46,28 @@ export const Form = styled.form`
     border-radius: 8px;
   }
 `;
+
+export const HeaderDiv = styled.div`
+  padding: 11px;
+  background-color: #F4A460;
+  input.profile-btn-header {
+    padding: 5px 2px 2px 5px;
+    margin: 2px auto 2px 5px; 
+    background-color: #F5DEB3;
+    border-radius: 50%;
+  }
+  input.search-btn-header {
+    padding: 5px 2px 2px 5px;
+    margin: 2px 5px 2px auto; 
+    background-color: #F5DEB3;
+    border-radius: 50%;
+  }
+`;
+
+export const HeaderTitle = styled.h1`
+  display: inline-block;
+  font-size: 20px;
+  width: 50%;
+  text-align: center;
+  margin: 5px 40px;
+`;
