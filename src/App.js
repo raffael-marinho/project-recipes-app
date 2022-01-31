@@ -20,90 +20,92 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route
-          exact
-          path="/"
-          component={ Login }
-        />
-        <Route
-          exact
-          path="/foods"
-          component={ Foods }
-        />
-        <Route
-          exact
-          path="/drinks"
-          component={ Drinks }
-        />
-        <Route
-          exact
-          path="/foods/{id}"
-          component={ FoodsId }
-        />
-        <Route
-          exact
-          path="/drinks/{id}"
-          component={ DrinksId }
-        />
-        <Route
-          exact
-          path="/foods/{id}/in-progress"
-          component={ FoodsIdInProgress }
-        />
-        <Route
-          exact
-          path="/drinks/{id}/in-progress"
-          component={ DrinksIdInProgress }
-        />
-        <Route
-          exact
-          path="/explore"
-          component={ Explore }
-        />
-        <Route
-          exact
-          path="/explore/foods"
-          component={ ExploreFoods }
-        />
-        <Route
-          exact
-          path="/explore/drinks"
-          component={ ExploreDrinks }
-        />
-        <Route
-          exact
-          path="/explore/foods/ingredients"
-          component={ ExploreFoodsIngredients }
-        />
-        <Route
-          exact
-          path="/explore/drinks/ingredients"
-          component={ ExploreDrinksIngredients }
-        />
-        <Route
-          exact
-          path="/explore/foods/nationalities"
-          component={ ExploreFoodsNacionalities }
-        />
-        <Route
-          exact
-          path="/profile"
-          component={ Profile }
-        />
-        <Route
-          exact
-          path="/done-recipes"
-          component={ DoneRecipes }
-        />
-        <Route
-          exact
-          path="/favorite-recipes"
-          component={ FavoriteRecipes }
-        />
-      </Switch>
-    </BrowserRouter>
+    <div className="App">
+      <BrowserRouter>
+        <Switch>
+          <Route
+            exact
+            path="/"
+            component={ Login }
+          />
+          <Route
+            exact
+            path="/foods"
+            component={ Foods }
+          />
+          <Route
+            exact
+            path="/drinks"
+            component={ Drinks }
+          />
+          <Route
+            exact
+            path="/foods/{id}"
+            component={ FoodsId }
+          />
+          <Route
+            exact
+            path="/drinks/{id}"
+            component={ DrinksId }
+          />
+          <Route
+            exact
+            path="/foods/{id}/in-progress"
+            component={ FoodsIdInProgress }
+          />
+          <Route
+            exact
+            path="/drinks/{id}/in-progress"
+            component={ DrinksIdInProgress }
+          />
+          <Route
+            exact
+            path="/explore"
+            component={ Explore }
+          />
+          <Route
+            exact
+            path="/explore/foods"
+            component={ ExploreFoods }
+          />
+          <Route
+            exact
+            path="/explore/drinks"
+            component={ ExploreDrinks }
+          />
+          <Route
+            exact
+            path="/explore/foods/ingredients"
+            component={ ExploreFoodsIngredients }
+          />
+          <Route
+            exact
+            path="/explore/drinks/ingredients"
+            component={ ExploreDrinksIngredients }
+          />
+          <Route
+            exact
+            path="/explore/foods/nationalities"
+            component={ ExploreFoodsNacionalities }
+          />
+          <Route
+            exact
+            path="/profile"
+            component={ Profile }
+          />
+          <Route
+            exact
+            path="/done-recipes"
+            component={ DoneRecipes }
+          />
+          <Route
+            exact
+            path="/favorite-recipes"
+            component={ FavoriteRecipes }
+          />
+        </Switch>
+      </BrowserRouter>
+    </div>
   );
 }
 
