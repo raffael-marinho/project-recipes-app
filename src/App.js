@@ -16,7 +16,6 @@ import ExploreDrinksIngredients from './pages/explore/ExploreDrinksIngredients';
 import Profile from './pages/user/Profile';
 import DoneRecipes from './pages/user/DoneRecipes';
 import FavoriteRecipes from './pages/user/FavoriteRecipes';
-import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {

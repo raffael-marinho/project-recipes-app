@@ -10,28 +10,31 @@ function Footer() {
   console.log(history);
   return (
     <footer data-testid="footer">
-      <input
-        type="image"
-        data-testid="drinks-bottom-btn"
-        onClick={ () => history.push('/drinks') }
-        src={ drinkIcon }
-        alt="Ícone de Bebidas"
-      />
-      <input
-        type="image"
-        data-testid="explore-bottom-btn"
-        onClick={ () => history.push('/explore') }
-        src={ exploreIcon }
-        alt="Ícone de Explorar"
-      />
+      <div className="footer">
+        <input
+          type="image"
+          data-testid="drinks-bottom-btn"
+          onClick={ () => history.push('/drinks') }
+          src={ drinkIcon }
+          alt="Ícone de Bebidas"
+        />
+        <input
+          type="image"
+          data-testid="explore-bottom-btn"
+          onClick={ () => history.push('/explore') }
+          src={ exploreIcon }
+          alt="Ícone de Explorar"
+        />
 
-      <input
-        type="image"
-        data-testid="food-bottom-btn"
-        onClick={ () => history.push('/foods') }
-        src={ mealIcon }
-        alt="Ícone de Comidas"
-      />
+        <input
+          type="image"
+          data-testid="food-bottom-btn"
+          onClick={ () => history.push('/foods') }
+          src={ mealIcon }
+          alt="Ícone de Comidas"
+        />
+      </div>
+
     </footer>
   );
 }
