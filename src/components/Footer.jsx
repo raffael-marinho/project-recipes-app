@@ -7,7 +7,6 @@ import mealIcon from '../images/mealIcon.svg';
 
 function Footer() {
   const history = useHistory();
-  console.log(history);
   return (
     <footer data-testid="footer">
       <div className="footer">

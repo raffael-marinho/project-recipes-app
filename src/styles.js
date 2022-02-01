@@ -71,3 +71,19 @@ export const HeaderTitle = styled.h1`
   text-align: center;
   margin: 5px 40px;
 `;
+
+export const SRecipesList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+
+export const RecipeCard = styled.div`
+  margin: 10px;
+  img{
+    width: 150px;
+  }
+  p{
+    text-align: center;
+  }
+`;
