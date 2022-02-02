@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { requestCategories } from '../Redux/actions';
-import { SFiltersBtn } from '../styles';
+import { FilterBtn, SFiltersBtn } from '../styles';
 
 function FiltersBtns() {
   const { pathname } = useLocation();
@@ -18,6 +18,18 @@ function FiltersBtns() {
   return (
     <SFiltersBtn>
       <button type="button">All</button>
+      {categories
+        .map((category, index) => (
+          index < amountCategories && (
+            <FilterBtn
+              key={ index }
+              data-testid={ `${category.strCategory}-category-filter` }
+            >
+              {category.strCategory}
+
+            </FilterBtn>
+          )
+        ))}
     </SFiltersBtn>
   );
 }

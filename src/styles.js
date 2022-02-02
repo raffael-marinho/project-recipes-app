@@ -94,3 +94,5 @@ export const RecipeCard = styled.div`
 
 export const SFiltersBtn = styled.div`
 `;
+
+export const FilterBtn = styled.button``;
