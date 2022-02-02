@@ -9,7 +9,6 @@ function RecipesList() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { recipes } = useSelector((state) => state.recipesReducer);
-  console.log(recipes);
 
   const amountRecipes = 12;
 
@@ -25,13 +24,15 @@ function RecipesList() {
             index < amountRecipes && (
               <RecipeCard
                 key={ index }
+                data-testid={ `${index}-recipe-card` }
                 onClick={ () => history.push(`/foods/${recipe.idMeal}`) }
               >
                 <img
+                  data-testid={ `${index}-card-img` }
                   src={ recipe.strMealThumb }
                   alt={ `receita de ${recipe.strMeal}` }
                 />
-                <p>{recipe.strMeal}</p>
+                <p data-testid={ `${index}-card-name` }>{recipe.strMeal}</p>
               </RecipeCard>)
 
           ))) : (
@@ -40,13 +41,15 @@ function RecipesList() {
             index < amountRecipes && (
               <RecipeCard
                 key={ index }
+                data-testid={ `${index}-recipe-card` }
                 onClick={ () => history.push(`/drinks/${recipe.idDrink}`) }
               >
                 <img
+                  data-testid={ `${index}-card-img` }
                   src={ recipe.strDrinkThumb }
                   alt={ `receita de ${recipe.strDrink}` }
                 />
-                <p>{recipe.strDrink}</p>
+                <p data-testid={ `${index}-card-name` }>{recipe.strDrink}</p>
               </RecipeCard>)
 
           ))

@@ -91,3 +91,6 @@ export const RecipeCard = styled.div`
     text-align: center;
   }
 `;
+
+export const SFiltersBtn = styled.div`
+`;
