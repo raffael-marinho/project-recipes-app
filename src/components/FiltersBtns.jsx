@@ -7,7 +7,7 @@ import { FilterBtn, SFiltersBtn } from '../styles';
 
 function FiltersBtns() {
   const { pathname } = useLocation();
-  const { setCategoryToFilter } = useContext(FilterContext);
+  const { categoryToFilter, setCategoryToFilter } = useContext(FilterContext);
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.categoriesReducer);
 
@@ -17,10 +17,19 @@ function FiltersBtns() {
     dispatch(requestCategories(pathname));
   }, [dispatch, pathname]);
 
+  const handleClick = (category) => {
+    if (category === categoryToFilter) {
+      setCategoryToFilter('All');
+    } else {
+      setCategoryToFilter(category);
+    }
+  };
+
   return (
     <SFiltersBtn>
       <FilterBtn
         type="button"
+        data-testid="All-category-filter"
         onClick={ () => setCategoryToFilter('All') }
       >
         All
@@ -32,7 +41,7 @@ function FiltersBtns() {
             <FilterBtn
               key={ index }
               data-testid={ `${category.strCategory}-category-filter` }
-              onClick={ () => setCategoryToFilter(category.strCategory) }
+              onClick={ () => handleClick(category.strCategory) }
             >
               {category.strCategory}
 
