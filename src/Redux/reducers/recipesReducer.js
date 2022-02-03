@@ -1,4 +1,4 @@
-import { GET_RECIPES } from '../actions';
+import { GET_CATEGORY, GET_RECIPES } from '../actions';
 
 const INITIAL_STATE = {
   recipes: [],
@@ -10,6 +10,11 @@ function recipesReducer(state = INITIAL_STATE, action) {
     return {
       ...state,
       recipes: action.recipes,
+    };
+  case GET_CATEGORY:
+    return {
+      ...state,
+      recipes: action.category,
     };
   default:
     return state;

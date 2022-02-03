@@ -5,7 +5,6 @@ export const FilterContext = createContext();
 
 export function FilterProvider({ children }) {
   const [categoryToFilter, setCategoryToFilter] = useState('All');
-  console.log(categoryToFilter);
 
   const data = {
     categoryToFilter,

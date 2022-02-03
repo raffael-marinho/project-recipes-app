@@ -1,26 +1,24 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { FilterContext } from '../context/filterContext';
-import { requestRecipes } from '../Redux/actions';
+import { requestCategory, requestRecipes } from '../Redux/actions';
 import { RecipeCard, SRecipesList } from '../styles';
 
 function RecipesList() {
   const { pathname } = useLocation();
-  const history = useHistory();
   const { categoryToFilter } = useContext(FilterContext);
-  const dispatch = useDispatch();
   const { recipes } = useSelector((state) => state.recipesReducer);
+  const history = useHistory();
+  const dispatch = useDispatch();
 
-  const [filteredRecipes, setFilteredRecipes] = useState(recipes);
   const filterRecipes = useCallback(() => {
     if (categoryToFilter !== 'All') {
-      setFilteredRecipes(recipes
-        .filter((recipe) => recipe.strCategory === categoryToFilter));
+      dispatch(requestCategory(pathname, categoryToFilter));
     } else {
-      setFilteredRecipes(recipes);
+      dispatch(requestRecipes(pathname));
     }
-  }, [categoryToFilter, recipes]);
+  }, [categoryToFilter, dispatch, pathname]);
 
   const amountRecipes = 12;
 
@@ -35,7 +33,7 @@ function RecipesList() {
   return (
     <SRecipesList>
       {pathname === '/foods' ? (
-        filteredRecipes
+        recipes
           .map((recipe, index) => (
             index < amountRecipes && (
               <RecipeCard
@@ -52,7 +50,7 @@ function RecipesList() {
               </RecipeCard>)
 
           ))) : (
-        filteredRecipes
+        recipes
           .map((recipe, index) => (
             index < amountRecipes && (
               <RecipeCard
