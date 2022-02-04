@@ -5,7 +5,7 @@ import Footer from '../../components/Footer';
 function Explore() {
   return (
     <>
-      <Header />
+      <Header titleProps="Explore" />
       <Footer />
     </>
   );

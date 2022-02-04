@@ -5,7 +5,7 @@ import Footer from '../../components/Footer';
 function Foods() {
   return (
     <>
-      <Header />
+      <Header titleProps="Foods" />
       <Footer />
     </>
   );

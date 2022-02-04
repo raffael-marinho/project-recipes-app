@@ -17,11 +17,14 @@ import Profile from './pages/user/Profile';
 import DoneRecipes from './pages/user/DoneRecipes';
 import FavoriteRecipes from './pages/user/FavoriteRecipes';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { GlobalStyle } from './styles';
+import HeaderContext from './context/headerProvider';
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
+    <BrowserRouter>
+      <HeaderContext>
+        <GlobalStyle />
         <Switch>
           <Route
             exact
@@ -104,8 +107,8 @@ function App() {
             component={ FavoriteRecipes }
           />
         </Switch>
-      </BrowserRouter>
-    </div>
+      </HeaderContext>
+    </BrowserRouter>
   );
 }
 
