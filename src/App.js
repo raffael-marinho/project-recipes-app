@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import Login from './pages/user/Login';
 import Foods from './pages/foods/Foods';
 import FoodsId from './pages/foods/FoodsId';

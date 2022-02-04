@@ -146,3 +146,28 @@ border-radius:12px;
 height: 4vh;
 width: 50vw;
 `;
+
+export const SRecipesList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+
+export const RecipeCard = styled.div`
+  margin: 10px;
+  border-radius: 5%;
+  box-shadow: 0px 20px 50px #D9DBDF;
+  img{
+    width: 150px;
+    margin: 5px 5px;
+  }
+  p{
+    margin: 8px auto;
+    text-align: center;
+  }
+`;
+
+export const SFiltersBtn = styled.div`
+`;
+
+export const FilterBtn = styled.button``;
