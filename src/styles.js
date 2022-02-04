@@ -70,31 +70,33 @@ export const Form = styled.form`
 export const HeaderDiv = styled.header`
   font-family: 'Merriweather'; 
   serif;
-  background-color: #F5DEB3;
+  background-color: #DEB887;
   top: 0px;
   display: flex;
   justify-content: space-around;
   padding: 1.5vh;
   position: fixed;
-  height: 8vh;
+  height: 8.5vh;
   width: 100%;
   text-align: center;
   h1 {
     height: 5vh;
     font-size: 5vh;
   }
-  input.profile-btn-header {
-    height: 5vh;
-    width: 7vh;
-  }
   input {
-    height: 5vh;
-    width: 7vh;
+    height: 6vh;
+    width: 6vh;
+    padding: 5px 5px 5px 8px;
+    background-color: #F0F8FF;
+    border-radius: 50%;
+  }
+  input.profile-btn-header{
+    padding: 5px;
   }
 `;
 
 export const Sfooter = styled.footer`
-background-color: #F5DEB3;
+background-color: #DEB887;
 bottom: 0;
 display: flex;
 justify-content: space-around;
@@ -112,7 +114,7 @@ font-family: 'Merriweather';
 serif;
 display: flex;
 flex-direction: column;
-padding: 10vh;
+padding-top: 10vh;
 font-size: 2.5vh;
 text-align: center;
 align-items: center;
@@ -151,6 +153,7 @@ export const SRecipesList = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  padding-bottom: 10vh;
 `;
 
 export const RecipeCard = styled.div`
@@ -163,11 +166,23 @@ export const RecipeCard = styled.div`
   }
   p{
     margin: 8px auto;
+    max-width: 160px;
     text-align: center;
   }
 `;
 
 export const SFiltersBtn = styled.div`
+  padding-top: 10vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 `;
 
-export const FilterBtn = styled.button``;
+export const FilterBtn = styled.button`
+  margin: 1vw;
+  padding: 5px;
+  width: 30vw;
+  box-shadow: 0px 10px 20px #D9DBDF;
+  border: 1px grey;
+  border-radius: 12%;
+`;

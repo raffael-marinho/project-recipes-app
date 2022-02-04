@@ -51,6 +51,7 @@ export async function fetchNameMeal(name) {
   const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${name}`;
   const res = await fetch(url);
   const data = await res.json();
+  console.log(data);
   return data.meals;
 }
 

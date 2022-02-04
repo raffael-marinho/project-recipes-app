@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useLocation, useHistory } from 'react-router-dom';
 import Context from './Context';
 import { fetchIngredientDrink, fetchNameDrink, fetchFirstLetterDrink,
   fetchFirstLetterMeal, fetchNameMeal,
   fetchIngredientMeal } from '../services/fetchMealsAPI';
+import { getByFilter } from '../Redux/actions';
 
 export default function HeaderContext({ children }) {
   const [showSearchBar, setShowSearchBar] = useState(false);
@@ -14,6 +16,7 @@ export default function HeaderContext({ children }) {
 
   const location = useLocation();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleSearchButton = () => {
     setShowSearchBar(!showSearchBar);
@@ -23,47 +26,63 @@ export default function HeaderContext({ children }) {
     const alert = 'Sorry, we haven\'t found any recipes for these filters.';
     if (!data) {
       global.alert(alert);
+      return;
+    }
+    if (location.pathname.includes('foods') && data.length === 1) {
+      history.push(`/foods/${data[0].idMeal}`);
+    } else if (location.pathname.includes('drinks') && data.length === 1) {
+      history.push(`/drinks/${data[0].idDrink}`);
     } else {
-      setFilter(data);
-      if (location.pathname.includes('foods') && data.length === 1) {
-        history.push(`/foods/${data[0].idMeal}`);
-      } else if (location.pathname.includes('drinks') && data.length === 1) {
-        history.push(`/drinks/${data[0].idDrink}`);
-      }
+      dispatch(getByFilter(data));
     }
   };
 
+  const handleSearchClickMeal = () => {
+    if (radioButton === 'ingredients') {
+      fetchIngredientMeal(searchByText)
+        .then((data) => handleFilterSearch(data));
+    }
+    if (radioButton === 'name') {
+      fetchNameMeal(searchByText)
+        .then((data) => handleFilterSearch(data));
+    }
+    if (radioButton === 'firstLetter') {
+      if (searchByText.length > 1) {
+        global.alert('Your search must have only 1 (one) character');
+        return;
+      }
+      fetchFirstLetterMeal(searchByText)
+        .then((data) => handleFilterSearch(data));
+    }
+  };
+
+  const handleSearchClickDrink = () => {
+    if (radioButton === 'ingredients') {
+      fetchIngredientDrink(searchByText)
+        .then((data) => handleFilterSearch(data));
+    }
+    if (radioButton === 'name') {
+      fetchNameDrink(searchByText)
+        .then((data) => handleFilterSearch(data));
+    }
+    if (radioButton === 'firstLetter') {
+      if (searchByText.length > 1) {
+        global.alert('Your search must have only 1 (one) character');
+        return;
+      }
+      fetchFirstLetterDrink(searchByText)
+        .then((data) => handleFilterSearch(data));
+    }
+  };
   const handleSearchClick = () => {
+    setFilter(searchByText);
     if (location.pathname === '/foods') {
-      if (radioButton === 'ingredients') {
-        fetchIngredientMeal(searchByText)
-          .then((data) => handleFilterSearch(data));
-      }
-      if (radioButton === 'name') {
-        fetchNameMeal(searchByText)
-          .then((data) => handleFilterSearch(data));
-      }
-      if (radioButton === 'firstLetter') {
-        fetchFirstLetterMeal(searchByText)
-          .then((data) => handleFilterSearch(data));
-      }
+      handleSearchClickMeal();
     }
     if (location.pathname === '/drinks') {
-      if (radioButton === 'ingredients') {
-        fetchIngredientDrink(searchByText)
-          .then((data) => handleFilterSearch(data));
-      }
-      if (radioButton === 'name') {
-        fetchNameDrink(searchByText)
-          .then((data) => handleFilterSearch(data));
-      }
-      if (radioButton === 'firstLetter') {
-        fetchFirstLetterDrink(searchByText)
-          .then((data) => handleFilterSearch(data));
-      }
+      handleSearchClickDrink();
     }
   };
-
   const Value = {
     searchByText,
     showSearchBar,

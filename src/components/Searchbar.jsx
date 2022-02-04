@@ -6,7 +6,7 @@ function SearchBar() {
   const {
     searchByText,
     setSearchByText,
-    handleFilterSearch,
+    handleSearchClick,
     setRadioButton,
   } = useContext(Context);
 
@@ -58,7 +58,7 @@ function SearchBar() {
       <SearchButton
         type="submit"
         data-testid="exec-search-btn"
-        onClick={ handleFilterSearch }
+        onClick={ handleSearchClick }
       >
         Search
       </SearchButton>
