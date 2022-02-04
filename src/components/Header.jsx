@@ -1,12 +1,19 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useContext } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { HeaderDiv, HeaderTitle } from '../styles';
+import { propTypes } from 'react-bootstrap/esm/Image';
+import { HeaderDiv } from '../styles';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import SearchBar from './Searchbar';
+import Context from '../context/Context';
 
-function Header() {
+function Header({ titleProps }) {
   const [showSearch, setShowSearch] = useState(false);
-  const [title, setTitle] = useState('Foods');
+
+  const {
+    showSearchBar,
+    handleSearchButton,
+  } = useContext(Context);
 
   const history = useHistory();
   const { pathname } = useLocation();
@@ -16,28 +23,6 @@ function Header() {
     || pathname === '/drinks'
     || pathname === '/explore/foods/nationalities') {
       setShowSearch(true);
-    }
-    if (pathname === '/foods') {
-      setTitle('Foods');
-    } else if (pathname === '/drinks') {
-      setTitle('Drinks');
-    } else if (pathname === '/explore') {
-      setTitle('Explore');
-    } else if (pathname === '/explore/foods') {
-      setTitle('Explore Foods');
-    } else if (pathname === '/explore/drinks') {
-      setTitle('Explore Drinks');
-    } else if (pathname === '/explore/foods/ingredients'
-    || pathname === '/explore/drinks/ingredients') {
-      setTitle('Explore Ingredients');
-    } else if (pathname === '/explore/foods/nationalities') {
-      setTitle('Explore Nationalities');
-    } else if (pathname === '/profile') {
-      setTitle('Profile');
-    } else if (pathname === '/done-recipes') {
-      setTitle('Done Recipes');
-    } else {
-      setTitle('Favorite Recipes');
     }
   }, [pathname]);
 
@@ -50,25 +35,38 @@ function Header() {
   };
 
   return (
-    <HeaderDiv>
-      <input
-        className="profile-btn-header"
-        type="image"
-        data-testid="profile-top-btn"
-        src={ profileIcon }
-        alt="icone de perfil"
-        onClick={ ProfileClick }
-      />
-      <HeaderTitle data-testid="page-title">{title}</HeaderTitle>
-      {showSearch && (<input
-        className="search-btn-header"
-        type="image"
-        data-testid="search-top-btn"
-        src={ searchIcon }
-        alt="icone de perfil"
-      />)}
-    </HeaderDiv>
+    <div>
+      <HeaderDiv>
+        <input
+          className="profile-btn-header"
+          type="image"
+          data-testid="profile-top-btn"
+          src={ profileIcon }
+          alt="icone de perfil"
+          onClick={ ProfileClick }
+        />
+        <h1 data-testid="page-title">{titleProps}</h1>
+        {showSearch && (
+          <input
+            className="search-btn-header"
+            type="image"
+            data-testid="search-top-btn"
+            src={ searchIcon }
+            alt="icone de perfil"
+            onClick={ handleSearchButton }
+          />)}
+      </HeaderDiv>
+      {showSearchBar ? <SearchBar /> : null}
+    </div>
   );
 }
+
+Header.defaultProps = {
+  titleProps: 'Foods',
+};
+
+Header.propTypes = {
+  titleProps: propTypes.string,
+};
 
 export default Header;

@@ -8,7 +8,7 @@ import { FilterProvider } from '../../context/filterContext';
 function Drinks() {
   return (
     <>
-      <Header />
+      <Header titleProps="Drinks" />
       <FilterProvider>
         <FiltersBtns />
         <RecipesList />
