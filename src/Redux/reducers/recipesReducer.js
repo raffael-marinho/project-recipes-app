@@ -1,4 +1,4 @@
-import { GET_CATEGORY, GET_RECIPES } from '../actions';
+import { GET_BY_FILTER, GET_CATEGORY, GET_RECIPES } from '../actions';
 
 const INITIAL_STATE = {
   recipes: [],
@@ -15,6 +15,11 @@ function recipesReducer(state = INITIAL_STATE, action) {
     return {
       ...state,
       recipes: action.category,
+    };
+  case GET_BY_FILTER:
+    return {
+      ...state,
+      recipes: action.filtered,
     };
   default:
     return state;

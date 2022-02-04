@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useLocation, useHistory } from 'react-router-dom';
 import Context from './Context';
 import { fetchIngredientDrink, fetchNameDrink, fetchFirstLetterDrink,
   fetchFirstLetterMeal, fetchNameMeal,
   fetchIngredientMeal } from '../services/fetchMealsAPI';
+import { getByFilter } from '../Redux/actions';
 
 export default function HeaderContext({ children }) {
   const [showSearchBar, setShowSearchBar] = useState(false);
@@ -14,26 +16,29 @@ export default function HeaderContext({ children }) {
 
   const location = useLocation();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleSearchButton = () => {
     setShowSearchBar(!showSearchBar);
   };
 
   const handleFilterSearch = (data) => {
-    const alert = 'Sorry, we haven\'t found any recipes for these filters.';
+    console.log(data);
+    // const alert = 'Sorry, we haven\'t found any recipes for these filters.';
     if (!data) {
-      global.alert(alert);
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
+    if (location.pathname.includes('foods') && data.length === 1) {
+      history.push(`/foods/${data[0].idMeal}`);
+    } else if (location.pathname.includes('drinks') && data.length === 1) {
+      history.push(`/drinks/${data[0].idDrink}`);
     } else {
-      setFilter(data);
-      if (location.pathname.includes('foods') && data.length === 1) {
-        history.push(`/foods/${data[0].idMeal}`);
-      } else if (location.pathname.includes('drinks') && data.length === 1) {
-        history.push(`/drinks/${data[0].idDrink}`);
-      }
+      dispatch(getByFilter(data));
     }
   };
 
   const handleSearchClick = () => {
+    setFilter(searchByText);
     if (location.pathname === '/foods') {
       if (radioButton === 'ingredients') {
         fetchIngredientMeal(searchByText)

@@ -10,6 +10,7 @@ import {
 export const GET_RECIPES = 'GET_RECIPES';
 export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const GET_CATEGORY = 'GET_CATEGORY';
+export const GET_BY_FILTER = 'GET_BY_FILTER';
 
 export const getRecipes = (recipes) => ({
   type: GET_RECIPES,
@@ -24,6 +25,11 @@ export const getCategories = (categories) => ({
 export const getCategory = (category) => ({
   type: GET_CATEGORY,
   category,
+});
+
+export const getByFilter = (filtered) => ({
+  type: GET_BY_FILTER,
+  filtered,
 });
 
 export function requestRecipes(pathname) {
