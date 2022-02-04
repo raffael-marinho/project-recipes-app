@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import Login from './pages/user/Login';
 import Foods from './pages/foods/Foods';
 import FoodsId from './pages/foods/FoodsId';
@@ -17,11 +18,14 @@ import Profile from './pages/user/Profile';
 import DoneRecipes from './pages/user/DoneRecipes';
 import FavoriteRecipes from './pages/user/FavoriteRecipes';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { GlobalStyle } from './styles';
+import HeaderContext from './context/headerProvider';
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
+    <BrowserRouter>
+      <HeaderContext>
+        <GlobalStyle />
         <Switch>
           <Route
             exact
@@ -104,8 +108,8 @@ function App() {
             component={ FavoriteRecipes }
           />
         </Switch>
-      </BrowserRouter>
-    </div>
+      </HeaderContext>
+    </BrowserRouter>
   );
 }
 
