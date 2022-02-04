@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState, useContext } from 'react';
+import PropTypes from 'prop-types';
 import { useHistory, useLocation } from 'react-router-dom';
-import { propTypes } from 'react-bootstrap/esm/Image';
 import { HeaderDiv } from '../styles';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
@@ -35,7 +35,7 @@ function Header({ titleProps }) {
   };
 
   return (
-    <div>
+    <>
       <HeaderDiv>
         <input
           className="profile-btn-header"
@@ -57,16 +57,12 @@ function Header({ titleProps }) {
           />)}
       </HeaderDiv>
       {showSearchBar ? <SearchBar /> : null}
-    </div>
+    </>
   );
 }
 
-Header.defaultProps = {
-  titleProps: 'Foods',
-};
-
 Header.propTypes = {
-  titleProps: propTypes.string,
+  titleProps: PropTypes.string.isRequired,
 };
 
 export default Header;
