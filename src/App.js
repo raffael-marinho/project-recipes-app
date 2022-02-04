@@ -40,22 +40,22 @@ function App() {
           />
           <Route
             exact
-            path="/foods/{id}"
+            path="/foods/:id"
             component={ FoodsId }
           />
           <Route
             exact
-            path="/drinks/{id}"
+            path="/drinks/:id"
             component={ DrinksId }
           />
           <Route
             exact
-            path="/foods/{id}/in-progress"
+            path="/foods/:id/in-progress"
             component={ FoodsIdInProgress }
           />
           <Route
             exact
-            path="/drinks/{id}/in-progress"
+            path="/drinks/:id/in-progress"
             component={ DrinksIdInProgress }
           />
           <Route
