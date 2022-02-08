@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { SMain } from '../../styles';
 
 function Profile() {
+  const [email, setEmail] = useState('');
   const history = useHistory();
-  const { email } = JSON.parse(localStorage.getItem('user'));
+
+  useEffect(() => {
+    if (localStorage.getItem('user')) {
+      const { email: usuario } = JSON.parse(localStorage.getItem('user'));
+      setEmail(usuario);
+    }
+  }, []);
 
   const logoutClick = () => {
     localStorage.removeItem('user');
@@ -22,7 +29,7 @@ function Profile() {
     <>
       <Header titleProps="Profile" />
       <SMain>
-        <span data-testid="profile-email">{email}</span>
+        {email && <span data-testid="profile-email">{email}</span>}
 
         <button
           type="button"
