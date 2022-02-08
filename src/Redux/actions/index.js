@@ -11,6 +11,10 @@ export const GET_RECIPES = 'GET_RECIPES';
 export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const GET_CATEGORY = 'GET_CATEGORY';
 export const GET_BY_FILTER = 'GET_BY_FILTER';
+export const START_FOOD = 'START_FOOD';
+export const START_DRINK = 'START_DRINK';
+export const FAVORITE_FOOD = 'FAVORITE_FOOD';
+export const FAVORITE_DRINK = 'FAVORITE_DRINK';
 
 export const getRecipes = (recipes) => ({
   type: GET_RECIPES,
@@ -30,6 +34,24 @@ export const getCategory = (category) => ({
 export const getByFilter = (filtered) => ({
   type: GET_BY_FILTER,
   filtered,
+});
+
+export const startFood = (id) => ({
+  type: START_FOOD,
+  id,
+});
+export const favoriteFood = (id) => ({
+  type: FAVORITE_FOOD,
+  id,
+});
+
+export const startDrink = (id) => ({
+  type: START_DRINK,
+  id,
+});
+export const favoriteDrink = (id) => ({
+  type: FAVORITE_DRINK,
+  id,
 });
 
 export function requestRecipes(pathname) {

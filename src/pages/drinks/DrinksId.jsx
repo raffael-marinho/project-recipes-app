@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   DetailsBoxBtn,
   DetailsBoxBtnStart,
-  DetailsBoxVideo,
   DetailsBtn,
   DetailsBtnIcon,
   DetailsBtnStart,
@@ -11,27 +11,60 @@ import {
   DetailsImg,
   DetailsIngredients,
   DetailsInstruçao,
-  DetailsVideo,
-  pageDetails,
+  PageDetails,
+  RecipeCard,
+  Recomendaçao,
 } from '../../styles';
-import { carregabebidas } from '../../services/api';
+import { carregabebidas, recomendacoesComidas } from '../../services/apiDetails';
+import { favoriteDrink, startDrink } from '../../Redux/actions';
+import shareIcon from '../../images/shareIcon.svg';
+import favoriteWhiteIcon from '../../images/whiteHeartIcon.svg';
+import favoriteBlackIcon from '../../images/blackHeartIcon.svg';
 
 function DrinksId() {
   const [guardaApi, setGuardaApi] = useState({});
-
+  const [sugestão, setSugestão] = useState({});
+  const [linkCopied, setLinkCopied] = useState(false);
+  const n6 = 6;
   const { id } = useParams();
+  const history = useHistory();
+  const s2 = 2000;
 
-  async function carregaEffect() {
-    const loading = await carregabebidas(id);
-    setGuardaApi(loading);
-  }
+  const copied = async () => {
+    await navigator.clipboard.writeText(window.location.href);
+    setLinkCopied(true);
+    setTimeout(() => setLinkCopied(false), s2);
+  };
+
+  const Dispatch = useDispatch();
+
+  const valueBtn = useSelector((state) => state.recipesReducer.recipes.find(
+    (recipe) => recipe.idDrink === id,
+  ));
+
+  const started = () => {
+    Dispatch(startDrink(id));
+    history.push(`/drinks/${id}/in-progress`);
+  };
 
   useEffect(() => {
+    async function carSugestao() {
+      const espera = await recomendacoesComidas(id);
+      setSugestão(espera);
+    }
+    carSugestao();
+  }, [id]);
+
+  useEffect(() => {
+    async function carregaEffect() {
+      const loading = await carregabebidas(id);
+      setGuardaApi(loading);
+    }
     carregaEffect();
-  }, []);
+  }, [id]);
 
   return (
-    <pageDetails>
+    <PageDetails>
       <div>
         <DetailsImg
           className="img"
@@ -44,22 +77,28 @@ function DrinksId() {
         <div>
           <h2 data-testid="recipe-title">
             {guardaApi.drinks
-          && guardaApi.drinks[0]
-            .strDrink}
+              && guardaApi.drinks[0]
+                .strDrink}
 
           </h2>
         </div>
         <DetailsBtn>
           <DetailsBtnIcon
-            src="/share-icon.svg"
+            src={ shareIcon }
             alt=""
             data-testid="share-btn"
+            onClick={ copied }
           />
-
+          <div value={ linkCopied }>
+            {linkCopied === true ? 'Link copied!' : ''}
+          </div>
           <DetailsBtnIcon
-            src="/fav-icon.svg"
+            src={ valueBtn?.favorited === true
+              ? favoriteWhiteIcon
+              : favoriteBlackIcon }
             alt=""
             data-testid="favorite-btn"
+            onClick={ () => Dispatch(favoriteDrink(id)) }
           />
         </DetailsBtn>
       </DetailsBoxBtn>
@@ -82,7 +121,7 @@ function DrinksId() {
                 key={ index }
               >
                 {
-                  drink[1]
+                  `${drink[1]} ${guardaApi.drinks[0][`strMeasure${index + 1}`]}`
                 }
               </h4>))}
         </DetailsIngredients>
@@ -92,40 +131,41 @@ function DrinksId() {
         <DetailsInstruçao>
           <h4 data-testid="instructions">
             {guardaApi.drinks
-          && guardaApi.drinks[0].strInstructions}
+              && guardaApi.drinks[0].strInstructions}
 
           </h4>
         </DetailsInstruçao>
       </div>
       <div>
         <h3>recomendados</h3>
-        <div>
-          <card data-testid="${index}-recomendation-card" />
-          <card data-testid="${index}-recomendation-card" />
-        </div>
+        <Recomendaçao>
+          {sugestão.meals && sugestão.meals.map((meal, index) => (
+            <RecipeCard
+              key={ index }
+              data-testid={ `${index}-recomendation-card` }
+              onClick={ () => history.push(`/foods/${meal.idMeal}`) }
+            >
+              <img
+                data-testid={ `${index}-card-img` }
+                src={ meal.strMealThumb }
+                alt={ `receita de ${meal.strMeal}` }
+              />
+              <p data-testid={ `${index}-recomendation-title` }>{meal.strMeal}</p>
+            </RecipeCard>)).slice(0, n6)}
+        </Recomendaçao>
       </div>
       <DetailsBoxBtnStart>
         <DetailsBtnStart
           type="button"
           data-testid="start-recipe-btn"
+          onClick={ started }
         >
-          start recipe
+          {valueBtn?.started === true ? 'Continue Recipe' : 'start recipe'}
 
         </DetailsBtnStart>
       </DetailsBoxBtnStart>
-    </pageDetails>
+    </PageDetails>
   );
 }
 
 export default DrinksId;
-
-// import React from 'react';
-
-// function DrinksId() {
-//   return (
-//     <>
-//     </>
-//   );
-// }
-
-// export default DrinksId;

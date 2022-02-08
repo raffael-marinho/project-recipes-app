@@ -36,13 +36,11 @@ export const CodeAndCooking = styled.h1`
   padding: 5px;
   padding-top: 0px;
 `;
-
 export const Ursinho = styled.img`
   width: 32vh;
   border-radius: 50%;
   margin: 15px;
 `;
-
 export const Form = styled.form`
   margin: 40% auto;
   max-width: 80%;
@@ -94,7 +92,6 @@ export const HeaderDiv = styled.header`
     padding: 5px;
   }
 `;
-
 export const Sfooter = styled.footer`
   background-color: #deb887;
   bottom: 0;
@@ -108,7 +105,6 @@ export const Sfooter = styled.footer`
     width: 7vh;
   }
 `;
-
 export const SearchBarDiv = styled.div`
 font-family: 'Merriweather'; 
 serif;
@@ -119,7 +115,6 @@ font-size: 2.5vh;
 text-align: center;
 align-items: center;
 `;
-
 export const SearchBarText = styled.input`
   border-radius: 12px;
   background-color: aliceblue;
@@ -127,7 +122,6 @@ export const SearchBarText = styled.input`
   height: 5vh;
   width: 70vw;
 `;
-
 export const SearchBarLabel = styled.div`
 margin: 1vh;
 display: inline-block;
@@ -140,7 +134,6 @@ label input {
   height: 3vh;
   width: 3vw;
 `;
-
 export const SearchButton = styled.button`
   background-color: #d9edf1;
   color: black;
@@ -148,14 +141,12 @@ export const SearchButton = styled.button`
   height: 4vh;
   width: 50vw;
 `;
-
 export const SRecipesList = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   padding-bottom: 10vh;
 `;
-
 export const RecipeCard = styled.div`
   margin: 10px;
   border-radius: 5%;
@@ -170,14 +161,12 @@ export const RecipeCard = styled.div`
     text-align: center;
   }
 `;
-
 export const SFiltersBtn = styled.div`
   padding-top: 10vh;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 `;
-
 export const FilterBtn = styled.button`
   margin: 1vw;
   padding: 5px;
@@ -186,8 +175,7 @@ export const FilterBtn = styled.button`
   border: 1px grey;
   border-radius: 12%;
 `;
-
-export const pageDetails = styled.div`
+export const PageDetails = styled.div`
   display: flex;
   flex-direction: column;
 `;
@@ -229,6 +217,10 @@ export const DetailsBoxVideo = styled.div`
   justify-content: center;
   align-items: center;
 `;
+export const Recomendaçao = styled.div`
+  display: flex;
+  overflow: scroll;
+`;
 export const DetailsVideo = styled.iframe`
   display: flex;
   justify-content: center;
@@ -240,6 +232,8 @@ export const DetailsBoxBtnStart = styled.div`
 `;
 export const DetailsBtnStart = styled.button`
   background-color: #f4a460;
+  position: fixed;
+  bottom: 0px;
   height: 76px;
   width: 339px;
 `;

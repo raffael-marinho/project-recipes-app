@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   DetailsBoxBtn,
   DetailsBoxBtnStart,
@@ -12,25 +13,60 @@ import {
   DetailsIngredients,
   DetailsInstruçao,
   DetailsVideo,
+  PageDetails,
+  RecipeCard,
+  Recomendaçao,
 } from '../../styles';
-import { carregaComidas } from '../../services/api';
+import { carregaComidas, recomendacoesBebidas } from '../../services/apiDetails';
+import { favoriteFood, startFood } from '../../Redux/actions';
+import shareIcon from '../../images/shareIcon.svg';
+import favoriteWhiteIcon from '../../images/whiteHeartIcon.svg';
+import favoriteBlackIcon from '../../images/blackHeartIcon.svg';
 
 function FoodsId() {
   const [guardaApi, setGuardaApi] = useState({});
-
+  const [sugestão, setSugestão] = useState({});
+  const [linkCopied, setLinkCopied] = useState(false);
+  const n6 = 6;
   const { id } = useParams();
+  const history = useHistory();
+  const s2 = 2000;
 
-  async function carregaEffect() {
-    const loading = await carregaComidas(id);
-    setGuardaApi(loading);
-  }
+  const copied = async () => {
+    await navigator.clipboard.writeText(window.location.href);
+    setLinkCopied(true);
+    setTimeout(() => setLinkCopied(false), s2);
+  };
+
+  const Dispatch = useDispatch();
+
+  const valueBtn = useSelector((state) => state.recipesReducer.recipes.find(
+    (recipe) => recipe.idMeal === id,
+  ));
+
+  const started = () => {
+    Dispatch(startFood(id));
+    history.push(`/foods/${id}/in-progress`);
+  };
 
   useEffect(() => {
+    async function carSugestao() {
+      const espera = await recomendacoesBebidas(id);
+      setSugestão(espera);
+    }
+    carSugestao();
+  }, [id]);
+
+  useEffect(() => {
+    async function carregaEffect() {
+      const loading = await carregaComidas(id);
+      setGuardaApi(loading);
+    }
     carregaEffect();
-  }, []);
+  }, [id]);
 
   return (
-    <pageDetails>
+    <PageDetails>
       <div>
         <DetailsImg
           src={ guardaApi.meals && guardaApi.meals[0].strMealThumb }
@@ -48,15 +84,21 @@ function FoodsId() {
         </div>
         <DetailsBtn>
           <DetailsBtnIcon
-            src="/share-icon.svg"
+            src={ shareIcon }
             alt=""
             data-testid="share-btn"
+            onClick={ copied }
           />
-
+          <div value={ linkCopied }>
+            {linkCopied === true ? 'Link copied!' : ''}
+          </div>
           <DetailsBtnIcon
-            src="/fav-icon.svg"
+            src={ valueBtn?.favorited === true
+              ? favoriteWhiteIcon
+              : favoriteBlackIcon }
             alt=""
             data-testid="favorite-btn"
+            onClick={ () => Dispatch(favoriteFood(id)) }
           />
         </DetailsBtn>
       </DetailsBoxBtn>
@@ -80,7 +122,7 @@ function FoodsId() {
                 key={ index }
               >
                 {
-                  meal[1]
+                  `${meal[1]} ${guardaApi.meals[0][`strMeasure${index + 1}`]}`
                 }
               </h4>))}
         </DetailsIngredients>
@@ -104,21 +146,33 @@ function FoodsId() {
       </div>
       <div>
         <h3>recomendados</h3>
-        <div>
-          <card data-testid="${index}-recomendation-card" />
-          <card data-testid="${index}-recomendation-card" />
-        </div>
+        <Recomendaçao>
+          {sugestão.drinks && sugestão.drinks.map((drink, index) => (
+            <RecipeCard
+              key={ index }
+              data-testid={ `${index}-recomendation-card` }
+              onClick={ () => history.push(`/drinks/${drink.idDrink}`) }
+            >
+              <img
+                data-testid={ `${index}-card-img` }
+                src={ drink.strDrinkThumb }
+                alt={ `receita de ${drink.strDrink}` }
+              />
+              <p data-testid={ `${index}-recomendation-title` }>{drink.strDrink}</p>
+            </RecipeCard>)).slice(0, n6)}
+        </Recomendaçao>
       </div>
       <DetailsBoxBtnStart>
         <DetailsBtnStart
           type="button"
           data-testid="start-recipe-btn"
+          onClick={ started }
         >
-          start recipe
+          {valueBtn?.started === true ? 'Continue Recipe' : 'start recipe'}
 
         </DetailsBtnStart>
       </DetailsBoxBtnStart>
-    </pageDetails>
+    </PageDetails>
   );
 }
 
