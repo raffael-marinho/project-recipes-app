@@ -186,3 +186,18 @@ export const FilterBtn = styled.button`
   border: 1px grey;
   border-radius: 12%;
 `;
+
+export const SMain = styled.main`
+  display: flex;
+  flex-direction: column;
+  padding-top: 10vh;
+  align-items: center;
+  button{
+    margin: 1vw;
+    padding: 5px;
+    width: 30vw;
+    border: 1px solid grey;
+    box-shadow: 0px 10px 20px #D9DBDF;
+    border-radius: 10%;
+  }
+`;
