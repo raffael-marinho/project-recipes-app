@@ -6,6 +6,7 @@ import {
   START_DRINK,
   FAVORITE_DRINK,
   FAVORITE_FOOD,
+  NEW_RECIPE,
 } from '../actions';
 
 function chamarFavFOOD(state, action) {
@@ -83,6 +84,11 @@ function recipesReducer(state = INITIAL_STATE, action) {
     };
   case FAVORITE_DRINK:
     return chamarFavDRINK(state, action);
+  case NEW_RECIPE:
+    return {
+      ...state,
+      recipes: [...state.recipes, action.recipe],
+    };
 
   default:
     return state;

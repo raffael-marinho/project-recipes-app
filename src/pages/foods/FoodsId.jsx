@@ -18,10 +18,11 @@ import {
   Recomendaçao,
 } from '../../styles';
 import { carregaComidas, recomendacoesBebidas } from '../../services/apiDetails';
-import { favoriteFood, startFood } from '../../Redux/actions';
+import { favoriteFood, newRecipe, startFood } from '../../Redux/actions';
 import shareIcon from '../../images/shareIcon.svg';
 import favoriteWhiteIcon from '../../images/whiteHeartIcon.svg';
 import favoriteBlackIcon from '../../images/blackHeartIcon.svg';
+import saveLocalStor, { removeLocalStor, salvaInProgress } from './utils';
 
 function FoodsId() {
   const [guardaApi, setGuardaApi] = useState({});
@@ -44,8 +45,56 @@ function FoodsId() {
     (recipe) => recipe.idMeal === id,
   ));
 
+  const localStor = () => {
+    Dispatch(favoriteFood(id));
+    if (valueBtn?.favorited === true) {
+      removeLocalStor(id);
+    } else {
+      saveLocalStor({
+        id,
+        type: 'food',
+        nationality: valueBtn?.strArea || '',
+        category: valueBtn?.strCategory || '',
+        alcoholicOrNot: '',
+        // alcoholicOrNot: valueBtn?.strAlcoholic,
+        name: valueBtn?.strMeal || '',
+        image: valueBtn?.strMealThumb || '',
+      });
+    }
+  };
+
+  useEffect(() => {
+    async function carregaEffect() {
+      const loading = await carregaComidas(id);
+      Dispatch(newRecipe(loading.meals[0]));
+      const favorites = localStorage.getItem('favoriteRecipes') || '[]';
+      const progress = localStorage.getItem('inProgressRecipes') || '{}';
+      const thisRecipe = JSON.parse(favorites).find((favorite) => favorite?.id === id);
+      let thisRecipe2 = JSON.parse(progress)?.meals;
+      if (thisRecipe2 !== undefined) {
+        thisRecipe2 = thisRecipe2[id];
+      }
+      if (thisRecipe) {
+        Dispatch(favoriteFood(id));
+      }
+      if (thisRecipe2) {
+        Dispatch(startFood(id));
+      }
+      setGuardaApi(loading);
+    }
+    carregaEffect();
+  }, [id, Dispatch]);
+
+  // useEffect(() => {
+
+  //   // console.log(thisRecipe);
+  //   // console.log(favorites);
+
+  // }, [Dispatch, id]);
+
   const started = () => {
     Dispatch(startFood(id));
+    salvaInProgress(id, 'food');
     history.push(`/foods/${id}/in-progress`);
   };
 
@@ -55,14 +104,6 @@ function FoodsId() {
       setSugestão(espera);
     }
     carSugestao();
-  }, [id]);
-
-  useEffect(() => {
-    async function carregaEffect() {
-      const loading = await carregaComidas(id);
-      setGuardaApi(loading);
-    }
-    carregaEffect();
   }, [id]);
 
   return (
@@ -94,11 +135,11 @@ function FoodsId() {
           </div>
           <DetailsBtnIcon
             src={ valueBtn?.favorited === true
-              ? favoriteWhiteIcon
-              : favoriteBlackIcon }
+              ? favoriteBlackIcon
+              : favoriteWhiteIcon }
             alt=""
             data-testid="favorite-btn"
-            onClick={ () => Dispatch(favoriteFood(id)) }
+            onClick={ localStor }
           />
         </DetailsBtn>
       </DetailsBoxBtn>
@@ -169,7 +210,6 @@ function FoodsId() {
           onClick={ started }
         >
           {valueBtn?.started === true ? 'Continue Recipe' : 'start recipe'}
-
         </DetailsBtnStart>
       </DetailsBoxBtnStart>
     </PageDetails>

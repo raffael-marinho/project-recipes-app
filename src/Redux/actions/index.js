@@ -15,6 +15,7 @@ export const START_FOOD = 'START_FOOD';
 export const START_DRINK = 'START_DRINK';
 export const FAVORITE_FOOD = 'FAVORITE_FOOD';
 export const FAVORITE_DRINK = 'FAVORITE_DRINK';
+export const NEW_RECIPE = 'NEW_RECIPE';
 
 export const getRecipes = (recipes) => ({
   type: GET_RECIPES,
@@ -49,9 +50,15 @@ export const startDrink = (id) => ({
   type: START_DRINK,
   id,
 });
+
 export const favoriteDrink = (id) => ({
   type: FAVORITE_DRINK,
   id,
+});
+
+export const newRecipe = (recipe) => ({
+  type: NEW_RECIPE,
+  recipe,
 });
 
 export function requestRecipes(pathname) {

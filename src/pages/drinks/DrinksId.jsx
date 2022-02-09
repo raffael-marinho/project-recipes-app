@@ -16,10 +16,11 @@ import {
   Recomendaçao,
 } from '../../styles';
 import { carregabebidas, recomendacoesComidas } from '../../services/apiDetails';
-import { favoriteDrink, startDrink } from '../../Redux/actions';
+import { favoriteDrink, newRecipe, startDrink } from '../../Redux/actions';
 import shareIcon from '../../images/shareIcon.svg';
 import favoriteWhiteIcon from '../../images/whiteHeartIcon.svg';
 import favoriteBlackIcon from '../../images/blackHeartIcon.svg';
+import saveLocalStor, { removeLocalStor, salvaInProgress } from '../foods/utils';
 
 function DrinksId() {
   const [guardaApi, setGuardaApi] = useState({});
@@ -44,6 +45,7 @@ function DrinksId() {
 
   const started = () => {
     Dispatch(startDrink(id));
+    salvaInProgress(id, 'Drink');
     history.push(`/drinks/${id}/in-progress`);
   };
 
@@ -55,13 +57,52 @@ function DrinksId() {
     carSugestao();
   }, [id]);
 
+  const localStor = () => {
+    Dispatch(favoriteDrink(id));
+    if (valueBtn?.favorited === true) {
+      removeLocalStor(id);
+    } else {
+      saveLocalStor({
+        id,
+        type: 'drink',
+        nationality: valueBtn?.strArea || '',
+        category: valueBtn?.strCategory || '',
+        // alcoholicOrNot: '',
+        alcoholicOrNot: valueBtn?.strAlcoholic || '',
+        name: valueBtn?.strDrink || '',
+        image: valueBtn?.strDrinkThumb || '',
+      });
+    }
+  };
+
+  // useEffect(() => {
+
+  //   console.log(favorites);
+
+  // }, [Dispatch, id]);
+
   useEffect(() => {
     async function carregaEffect() {
       const loading = await carregabebidas(id);
+      Dispatch(newRecipe(loading.drinks[0]));
+      const favorites = localStorage.getItem('favoriteRecipes') || '[]';
+      const progress = localStorage.getItem('inProgressRecipes') || '{}';
+      const thisRecipe = JSON.parse(favorites).find((favorite) => favorite?.id === id);
+      let thisRecipe2 = JSON.parse(progress)?.cocktails;
+      if (thisRecipe2 !== undefined) {
+        thisRecipe2 = thisRecipe2[id];
+      }
+      if (thisRecipe) {
+        Dispatch(favoriteDrink(id));
+      }
+      if (thisRecipe2) {
+        Dispatch(startDrink(id));
+      }
+      console.log(thisRecipe);
       setGuardaApi(loading);
     }
     carregaEffect();
-  }, [id]);
+  }, [id, Dispatch]);
 
   return (
     <PageDetails>
@@ -94,11 +135,11 @@ function DrinksId() {
           </div>
           <DetailsBtnIcon
             src={ valueBtn?.favorited === true
-              ? favoriteWhiteIcon
-              : favoriteBlackIcon }
+              ? favoriteBlackIcon
+              : favoriteWhiteIcon }
             alt=""
             data-testid="favorite-btn"
-            onClick={ () => Dispatch(favoriteDrink(id)) }
+            onClick={ localStor }
           />
         </DetailsBtn>
       </DetailsBoxBtn>
